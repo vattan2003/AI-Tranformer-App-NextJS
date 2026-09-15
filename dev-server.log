@@ -1,0 +1,50 @@
+▲ Next.js 16.1.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.21:3000
+- Environments: .env.local
+
+✓ Starting...
+✓ Ready in 1125ms
+ GET / 200 in 605ms (compile: 423ms, render: 182ms)
+ GET / 200 in 52ms (compile: 4ms, render: 48ms)
+ GET / 200 in 175ms (compile: 7ms, render: 168ms)
+BODY: {
+  input: 'I built a small feature to speed up the app. It loads faster now, and users should notice the difference.',
+  mode: 'summarize'
+}
+FULL ERROR: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent: [403 Forbidden] Your API key was reported as leaked. Please use another API key.
+    at async POST (src\app\api\transform\route.js:29:20)
+  27 |     const prompt = `${instructions}\n\nText to process:\n${input}`;
+  28 |
+> 29 |     const result = await model.generateContent(prompt);
+     |                    ^
+  30 |     const response = await result.response;
+  31 |     const text = response.text();
+  32 | {
+  status: 403,
+  statusText: 'Forbidden',
+  errorDetails: undefined
+}
+ POST /api/transform 500 in 1109ms (compile: 85ms, render: 1023ms)
+  Reload env: .env.local
+✓ Compiled in 346ms
+ GET / 200 in 686ms (compile: 522ms, render: 164ms)
+ GET / 200 in 128ms (compile: 63ms, render: 65ms)
+  Reload env: .env.local
+ GET / 200 in 76ms (compile: 55ms, render: 21ms)
+  Reload env: .env.local
+ GET / 200 in 81ms (compile: 49ms, render: 32ms)
+ GET / 200 in 74ms (compile: 41ms, render: 33ms)
+ GET / 200 in 240ms (compile: 9ms, render: 232ms)
+BODY: {
+  input: 'I built a small feature to speed up the app. It loads faster now, and users should notice the difference.',
+  mode: 'summarize'
+}
+Here is a 5-bullet-point summary of the text:
+
+* A new, small feature was developed for the application.
+* The primary goal of the update was to enhance app performance.
+* The application now experiences faster loading times.
+* The performance improvement is expected to be noticeable.
+* Users will directly benefit from the speed upgrade.
+ POST /api/transform 200 in 7.3s (compile: 49ms, render: 7.2s)

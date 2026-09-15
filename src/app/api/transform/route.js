@@ -12,8 +12,8 @@ export async function POST(req) {
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    // Use gemini-flash-latest as the free, fast model
-    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+    // Use gemini-3.6-flash as the free, fast model
+    const model = genAI.getGenerativeModel({ model: "gemini-3.6-flash" });
 
     let instructions = "";
     if (mode === "summarize") {
