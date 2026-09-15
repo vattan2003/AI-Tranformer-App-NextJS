@@ -124,24 +124,26 @@ export default function Home() {
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4">
 
           {/* Top Buttons */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-2">
 
-            {MODES.map((eachMode) => (
+            <div className="flex flex-wrap items-center gap-2">
+              {MODES.map((eachMode) => (
 
-              <button
-                key={eachMode.key}
-                onClick={() => setmode(eachMode.key)}
-                className={
-                  mode === eachMode.key
-                    ? "rounded-full bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-900 transition"
-                    : "rounded-full bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-700"
-                }
-              >
-                {eachMode.label}
-              </button>
-            ))}
+                <button
+                  key={eachMode.key}
+                  onClick={() => setmode(eachMode.key)}
+                  className={
+                    mode === eachMode.key
+                      ? "rounded-full bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-900 transition"
+                      : "rounded-full bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-700"
+                  }
+                >
+                  {eachMode.label}
+                </button>
+              ))}
+            </div>
 
-            <div className="ml-auto flex items-center gap-2">
+            <div className="flex items-center gap-2 sm:ml-auto">
 
               <button
                 onClick={loadText}
