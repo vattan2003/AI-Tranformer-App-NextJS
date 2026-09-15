@@ -1,87 +1,45 @@
-import OpenAI from "openai"
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(req) {
-
   try {
+    const body = await req.json();
+    console.log("BODY:", body);
 
-    // Parse body
-    const body = await req.json()
+    const { input, mode, tone, target } = body;
 
-    console.log("BODY:", body)
-
-    const { input, mode, tone, target } = body
-
-    // Validate
     if (!input) {
-
-      return Response.json(
-        {
-          error: "Input required",
-        },
-        {
-          status: 400,
-        }
-      )
+      return Response.json({ error: "Input required" }, { status: 400 });
     }
 
-    // OpenAI client
-    const client = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    })
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    // Use gemini-flash-latest as the free, fast model
+    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
-    console.log("API KEY EXISTS:", !!process.env.OPENAI_API_KEY)
-
-    // Prompt
-    let instructions = ""
-
+    let instructions = "";
     if (mode === "summarize") {
-
-      instructions =
-        "Summarize the text into 5 bullet points."
-
+      instructions = "Summarize the following text into 5 bullet points.";
+    } else if (mode === "rewrite") {
+      instructions = `Rewrite the following text in a ${tone} tone.`;
+    } else if (mode === "translate") {
+      instructions = `Translate the following text to ${target}.`;
     }
 
-    else if (mode === "rewrite") {
+    const prompt = `${instructions}\n\nText to process:\n${input}`;
 
-      instructions =
-        `Rewrite the text in ${tone} tone.`
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
 
-    }
-
-    else if (mode === "translate") {
-
-      instructions =
-        `Translate the text to ${target}.`
-
-    }
-
-    // OpenAI response
-    const response = await client.responses.create({
-
-      model: "gpt-5.4-mini",
-
-      instructions,
-
-      input,
-    })
-
-    console.log(response.output_text)
+    console.log(text);
 
     return Response.json({
-      output: response.output_text,
-    })
-
+      output: text,
+    });
   } catch (error) {
-
-    console.log("FULL ERROR:", error)
-
+    console.log("FULL ERROR:", error);
     return Response.json(
-      {
-        error: error.message,
-      },
-      {
-        status: 500,
-      }
-    )
+      { error: error.message },
+      { status: 500 }
+    );
   }
 }
